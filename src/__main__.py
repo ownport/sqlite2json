@@ -15,7 +15,7 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
  
-def sqlite2json(db, query, udfs=dict()):
+def sqlite2json(db, query, fetch_size=1000, udfs=dict()):
 
     if not os.path.isfile(db):
         logger.error('The database does not exist, {}'.format(db))
@@ -25,7 +25,7 @@ def sqlite2json(db, query, udfs=dict()):
     connection.row_factory = dict_factory    
     cursor = connection.cursor()
     cursor.execute(query)
-    for row in cursor.fetchall():
+    for row in cursor.fetchmany(fetch_size):
         for fname in set(row.keys()).intersection(udfs.keys()):
             row[fname] = eval(udfs[fname].format(row[fname]))
         print(json.dumps(row))
@@ -36,6 +36,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--database', required=True, help='the path to sqlite3 database')
 parser.add_argument('--sql', required=True, help='SQL query')
+parser.add_argument('--fetch-size', type=int, default=1000, help='Fetch size, default: 1000 records')
 parser.add_argument('--udf', action='append', help='Custom UDF functions, the format fieldname:udf')
 args = parser.parse_args()
 
@@ -43,5 +44,5 @@ udfs = dict()
 if args.udf:
     udfs = dict([udf.split(':',1) for udf in args.udf])
 
-sqlite2json(args.database, args.sql, udfs)
+sqlite2json(args.database, args.sql, args.fetch_size, udfs)
     

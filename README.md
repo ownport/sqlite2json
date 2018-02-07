@@ -6,13 +6,16 @@ Simple script for returning SQL query result as JSONline
 
 ```
 ./sqlite2json --help
-usage: sqlite2json [-h] --database DATABASE --sql SQL [--udf UDF]
+usage: sqlite2json [-h] --database DATABASE --sql SQL
+                   [--fetch-size FETCH_SIZE] [--udf UDF]
 
 optional arguments:
-  -h, --help           show this help message and exit
-  --database DATABASE  the path to sqlite3 database
-  --sql SQL            SQL query
-  --udf UDF            Custom UDF functions, the format fieldname:udf
+  -h, --help            show this help message and exit
+  --database DATABASE   the path to sqlite3 database
+  --sql SQL             SQL query
+  --fetch-size FETCH_SIZE
+                        Fetch size, default: 1000 records
+  --udf UDF             Custom UDF functions, the format fieldname:udf
 ```
 
 ## Examples
