@@ -1,7 +1,7 @@
 PYTHON ?= /usr/bin/env python3
 PROJECT_NAME ?= sqlite2json
 PROJECT_NAME_SRC ?= src 
-PROJECT_VERSION ?= 0.1.0
+PROJECT_VERSION ?= 0.1.1
 
 clean:
 	@ echo "[INFO] Cleaning directory:" $(shell pwd)/target
